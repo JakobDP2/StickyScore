@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Situations Scoreboard</title>
+    <style>
+        /* Dark Theme Styling */
+        body { 
+            background-color: #121212; 
+            color: #ffffff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        
+        h1 { 
+            color: #00e676; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin-bottom: 10px; 
+            text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+        }
+        
+        p { color: #aaaaaa; margin-bottom: 30px; }
+        
+        .container { max-width: 600px; margin: 0 auto; }
+        
+        /* Score Card Styling */
+        .score-card { 
+            background: #1e1e1e; 
+            border-bottom: 1px solid #333;
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+        
+        .score-card:hover { 
+            background: #252525; 
+            transform: scale(1.02); 
+            border-radius: 5px;
+        }
+
+        /* Gold highlight for 1st place */
+        .score-card:first-child { 
+            background: #2e7d32; 
+            border-radius: 10px 10px 0 0; 
+            font-weight: bold; 
+            border: 1px solid #00e676;
+        }
+        
+        .score-card:last-child { 
+            border-radius: 0 0 10px 10px; 
+            border-bottom: none; 
+        }
+
+        .rank { width: 40px; text-align: left; color: #69f0ae; font-weight: bold; }
+        .name { flex-grow: 1; text-align: left; padding-left: 10px; }
+        .score { color: #00e676; font-weight: bold; }
+        
+        #loading { margin-top: 50px; font-style: italic; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Sticky Situations</h1>
+        <p>Live Leaderboard</p>
+        
+        <div id="scoreboard">
+            <div id="loading">Loading scores...</div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // I pasted your specific URL here based on your screenshot.
+        // The "/scores.json" part is crucial for the API to work.
+        const dbUrl = "https://stickysituations-4bb14-default-rtdb.europe-west1.firebasedatabase.app/scores.json";
+
+        async function fetchScores() {
+            try {
+                // 1. Fetch data from Firebase
+                const response = await fetch(dbUrl);
+                const data = await response.json();
+
+                const board = document.getElementById("scoreboard");
+                
+                // Only clear if we actually got data, otherwise keep "Loading" or show error
+                if (!data) {
+                    board.innerHTML = "<div style='padding:20px; color:#888;'>No scores yet. Be the first!</div>";
+                    return;
+                }
+
+                board.innerHTML = ""; // Clear list to rebuild it
+
+                // 2. Convert Data Object to Array
+                // Firebase returns: { "id1": {name: "A", score: 10}, "id2": {name: "B", score: 5} }
+                let scores = Object.values(data);
+
+                // 3. Sort Scores
+                // Descending order (Highest Score = Best) -> (b.score - a.score)
+                // If you want Fastest Time (Lowest = Best) -> change to (a.score - b.score)
+                scores.sort((a, b) => b.score - a.score); 
+
+                // 4. Display Top 10
+                scores.slice(0, 10).forEach((entry, index) => {
+                    const div = document.createElement("div");
+                    div.className = "score-card";
+                    
+                    // Format score to 2 decimal places
+                    const scoreDisplay = parseFloat(entry.score).toFixed(2);
+                    
+                    div.innerHTML = `
+                        <span class="rank">#${index + 1}</span>
+                        <span class="name">${entry.name}</span>
+                        <span class="score">${scoreDisplay}</span>
+                    `;
+                    board.appendChild(div);
+                });
+
+            } catch (error) {
+                console.error("Error fetching scores:", error);
+                // Don't wipe the board on error, just log it
+            }
+        }
+
+        // Run immediately
+        fetchScores();
+        
+        // Then refresh every 3 seconds
+        setInterval(fetchScores, 3000);
+    </script>
+</body>
+</html>
