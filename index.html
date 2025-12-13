@@ -18,17 +18,27 @@
             margin: 0; padding: 20px;
             -webkit-font-smoothing: none;
             overflow-x: hidden; 
+            
+            /* NEW: VERTICAL CENTERING LOGIC */
+            min-height: 100vh; /* Forces the page to be at least the height of the phone screen */
+            display: flex;     /* Enables flexible layout */
+            flex-direction: column;
+            justify-content: center; /* This moves everything to the middle vertically */
+            box-sizing: border-box; /* Ensures padding doesn't add to width */
         }
         
-        .container { max-width: 700px; margin: 0 auto; }
+        .container { 
+            width: 100%; 
+            max-width: 700px; 
+            margin: 0 auto; 
+        }
 
         /* MAIN GAME TITLE */
         .game-title {
             color: #00e676; 
             font-size: 2.0rem;
             text-transform: uppercase;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 15px; /* Reduced slightly */
             text-shadow: 4px 4px #2e7d32; 
             line-height: 1.5;
         }
@@ -38,12 +48,11 @@
             color: #ffffff;
             font-size: 1.0rem;
             text-transform: uppercase; 
-            margin-bottom: 40px; 
+            margin-bottom: 30px; 
             letter-spacing: 2px;
         }
         
-        /* --- SHARED ROW STYLING (Headers and Scores) --- */
-        /* This ensures they align perfectly */
+        /* SHARED ROW STYLING */
         .header-row, .score-row {
             display: flex;
             justify-content: space-between;
@@ -51,26 +60,22 @@
             width: 100%;
         }
 
-        /* --- DESKTOP SIZES (Default) --- */
-        /* 1. Force headers and scores to match size exactly */
+        /* --- DESKTOP SIZES --- */
         .header-row {
             margin-bottom: 20px;
             color: #ffffff;
             border-bottom: 2px solid #444; 
             padding-bottom: 15px;
-            font-size: 16px; /* Explicit Size */
+            font-size: 16px; 
         }
 
         .score-row { 
             padding: 12px 0;
-            font-size: 16px; /* Explicit Size - MATCHES HEADER */
+            font-size: 16px; 
         }
 
         /* --- COLUMN WIDTHS --- */
-        .col-rank { 
-            width: 20%; 
-            text-align: left; 
-        }
+        .col-rank { width: 20%; text-align: left; }
         
         .col-name { 
             width: 45%; 
@@ -82,10 +87,7 @@
             padding-right: 5px; 
         }
         
-        .col-score { 
-            width: 35%; 
-            text-align: right; 
-        }
+        .col-score { width: 35%; text-align: right; }
 
         /* COLORS */
         .score-row:first-child { color: #ffff00; }
@@ -94,20 +96,29 @@
 
         /* --- MOBILE SPECIFIC TWEAKS --- */
         @media (max-width: 600px) {
-            body { padding: 10px; }
+            body { padding: 15px; } /* Slightly more side padding */
             
-            .game-title { font-size: 1.4rem; margin-top: 10px;}
-            h2 { font-size: 0.7rem; margin-bottom: 20px; }
+            .game-title { 
+                font-size: 1.6rem; /* Slightly larger for impact */
+                margin-bottom: 20px; 
+            }
             
-            /* 2. Force matching sizes on Mobile */
+            h2 { 
+                font-size: 0.8rem; 
+                margin-bottom: 25px; 
+            }
+            
+            /* TALLER ROWS FOR MOBILE */
+            /* This eats up that empty space at the bottom */
             .header-row { 
-                font-size: 11px; /* Explicit Mobile Size */
+                font-size: 12px; /* Slightly readable bump */
                 margin-bottom: 15px; 
-                padding-bottom: 10px;
+                padding-bottom: 12px;
             }
             .score-row { 
-                font-size: 11px; /* Explicit Mobile Size - MATCHES HEADER */
-                padding: 10px 0; 
+                font-size: 12px; 
+                padding: 16px 0; /* Increased from 10px -> 16px to stretch the list out */
+                border-bottom: 1px solid #111; /* Subtle line to separate rows on big screens */
             }
 
             .col-rank { width: 22%; }
