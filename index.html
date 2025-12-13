@@ -17,6 +17,7 @@
             text-align: center; 
             margin: 0; padding: 20px;
             -webkit-font-smoothing: none;
+            overflow-x: hidden; 
         }
         
         .container { max-width: 700px; margin: 0 auto; }
@@ -41,33 +42,77 @@
             letter-spacing: 2px;
         }
         
-        /* Table Headers */
-        .header-row {
+        /* --- SHARED ROW STYLING (Headers and Scores) --- */
+        /* This ensures they align perfectly */
+        .header-row, .score-row {
             display: flex;
             justify-content: space-between;
+            align-items: center; 
+            width: 100%;
+        }
+
+        /* --- DESKTOP SIZES (Default) --- */
+        /* 1. Force headers and scores to match size exactly */
+        .header-row {
             margin-bottom: 20px;
             color: #ffffff;
-            text-transform: uppercase;
             border-bottom: 2px solid #444; 
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+            font-size: 16px; /* Explicit Size */
         }
 
-        /* Score Rows */
         .score-row { 
-            display: flex; 
-            justify-content: space-between; 
             padding: 12px 0;
-            font-size: 0.9rem;
+            font-size: 16px; /* Explicit Size - MATCHES HEADER */
         }
 
-        .col-rank { width: 15%; text-align: left; }
-        .col-name { width: 50%; text-align: left; text-transform: uppercase;}
-        .col-score { width: 35%; text-align: right; }
+        /* --- COLUMN WIDTHS --- */
+        .col-rank { 
+            width: 20%; 
+            text-align: left; 
+        }
+        
+        .col-name { 
+            width: 45%; 
+            text-align: left; 
+            text-transform: uppercase;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 5px; 
+        }
+        
+        .col-score { 
+            width: 35%; 
+            text-align: right; 
+        }
 
         /* COLORS */
         .score-row:first-child { color: #ffff00; }
         .score-row:nth-child(2) { color: #00ffff; }
         .score-row:nth-child(3) { color: #ff00ff; }
+
+        /* --- MOBILE SPECIFIC TWEAKS --- */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            
+            .game-title { font-size: 1.4rem; margin-top: 10px;}
+            h2 { font-size: 0.7rem; margin-bottom: 20px; }
+            
+            /* 2. Force matching sizes on Mobile */
+            .header-row { 
+                font-size: 11px; /* Explicit Mobile Size */
+                margin-bottom: 15px; 
+                padding-bottom: 10px;
+            }
+            .score-row { 
+                font-size: 11px; /* Explicit Mobile Size - MATCHES HEADER */
+                padding: 10px 0; 
+            }
+
+            .col-rank { width: 22%; }
+            .col-name { width: 43%; }
+        }
 
     </style>
 </head>
@@ -84,7 +129,7 @@
         </div>
 
         <div id="scoreboard">
-             <div style="margin-top:20px; color:#444;">LOADING...</div>
+             <div style="margin-top:20px; color:#444; font-size: 12px;">LOADING...</div>
         </div>
     </div>
 
