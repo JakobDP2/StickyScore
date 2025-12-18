@@ -15,22 +15,17 @@
             color: #ffffff;            
             font-family: 'Press Start 2P', cursive; 
             text-align: center; 
-            margin: 0; padding: 20px;
+            margin: 0; 
+            padding: 20px;
             -webkit-font-smoothing: none;
             overflow-x: hidden; 
-            
-            /* NEW: VERTICAL CENTERING LOGIC */
-            min-height: 100vh; /* Forces the page to be at least the height of the phone screen */
-            display: flex;     /* Enables flexible layout */
-            flex-direction: column;
-            justify-content: center; /* This moves everything to the middle vertically */
-            box-sizing: border-box; /* Ensures padding doesn't add to width */
+            min-height: 100vh;
         }
         
         .container { 
             width: 100%; 
             max-width: 700px; 
-            margin: 0 auto; 
+            margin: 20px auto 0 auto; 
         }
 
         /* MAIN GAME TITLE */
@@ -119,6 +114,10 @@
                 font-size: 12px; 
                 padding: 16px 0; /* Increased from 10px -> 16px to stretch the list out */
                 border-bottom: 1px solid #111; /* Subtle line to separate rows on big screens */
+            }
+
+            .container {
+                margin-top: 20px; 
             }
 
             .col-rank { width: 22%; }
