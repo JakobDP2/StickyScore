@@ -146,6 +146,7 @@
 
     <script>
         const dbUrl = "https://stickysituations-4bb14-default-rtdb.europe-west1.firebasedatabase.app/scores.json";
+        const showTestPlayers = false; //Put on true to see TestPlayer, put on false to not see them
 
         async function fetchScores() {
             try {
@@ -162,6 +163,10 @@
                 board.innerHTML = ""; 
 
                 let scores = Object.values(data);
+                if (!showTestPlayers) {
+                scores = scores.filter(entry => entry.name !== "TestPlayer");
+                }
+
                 scores.sort((a, b) => b.score - a.score); 
 
                 scores.slice(0, 10).forEach((entry, index) => {
